@@ -1,0 +1,126 @@
+Controlsbody {font-family:Arial, verdana, helvetica, sans-serif; margin:0; font-size:75%;}
+h1, h2, h3, h4, p {margin:0;}
+a, a:link {color:#0156aa; text-decoration:none;}
+a:visited {color:#840084;}
+a:hover, a:focus {color:#0156aa; text-decoration:underline;}
+a:active {color:#333333; text-decoration:underline;}
+a.disabled, a:link.diabled, .disabled, a:visited.disabled, a:hover.disabled, a:focus.disabled, a:active.disabled {color:#9b9b9b;}
+img {border:0;}
+.boxYellow {
+-moz-border-radius:2px 2px 2px 2px;
+background-color:#FEFFBB;
+border:1px solid #FEC76C;
+}
+.boxGrey {
+-moz-border-radius:2px 2px 2px 2px;
+background-color : #f7f7f7;
+border : 1px solid #cdcdcb;
+}
+
+
+
+.toolbarHead {  float: left; width:100%; }
+/*.toolbarfootHori { background: url(/static/images/toolbarFooter.gif) no-repeat 0 bottom; padding-bottom: 0px; margin: 0 0 0px 0 ; float: left; }*/
+.toolbarBody {  float: left; padding: 0 0 5px 0; border: 1px solid #bababa; width:100%;background:white; }
+.toolbarHoriShowHide {  margin: 0; padding: 0;   
+border: 1px solid rgb(186, 186, 186); 
+width: 100%; text-align: center;
+ height: 18px; font-size: 12px;
+ cursor:pointer;
+font-weight: normal; color: rgb(1, 86, 170); text-decoration: none;
+clear: both;
+background:#EBEBEB;
+} 
+#toolbar{position:relative;}
+.toolbarfoot { position:relative; padding-bottom: 0px; margin: 0 0 0 0 ; float: left; width:100%; }
+
+.toggleImg{background:  repeat-y 0 0; float: left;padding: 0 0 5px 0;width: 15px;cursor: pointer;_margin-left:-3px;}
+.toolbarHead h2 { font-size: 1.17em; padding: 3px 0 3px 6px; background: #ebebeb; border-bottom: 1px solid #bababa; }
+.toolbarHead a { font-size: 1em; }
+.containerAddManage { border-bottom: 1px solid #9b9b9b;  width: 100%; background: #ebebeb; }
+/*full screen code*/
+.toolbarHeadFull {  float: left; width:100%; }
+.toolbarfootFull {  padding-bottom: 0px; margin: 0 0 5px 0 ; float: left; width:100%;}
+.toolbarBodyFull {  float: left; padding: 0 0 5px 0;border: 1px solid #bababa; width:100%;}
+.toolbarHeadFull h2  { font-size: 1.17em; padding: 6px 0 0 6px; background: #ebebeb;}
+.toolbarHeadFull a { font-size: 1em; }
+.containerAddManageFull { border-bottom: 1px solid #9b9b9b; float: left; width: 100%;}
+.containerApplOver { margin: 5px 0 0 0; padding:0 2px 0 2px; }
+.containerApplOver img.heading {float:left; margin:2px 0 0 4px; height:20px;width:20px;}
+
+/*full screen code*/
+.col1 { float: left; width: 33.3%; }
+.col2 { float: left; width:33.3%; }
+.col3 { float: left; width: 33.3%; }
+.addManage { padding: 8px 0 5px 0; float: left; background: #ebebeb; }
+a.iconadd { background: url() no-repeat 0 1px; padding: 0 0 0 15px; margin: 0 0 0 5px; }
+.help { margin: 6px 2px 5px 0; float: right;}
+.help_horizontal{ margin: 6px 2px 5px 0; float: right;}
+.addManageHome { padding: 7px 0 0 1px; float: right; background: #ebebeb; margin-right: 6px;}
+.helpHome { margin: 6px 2px 5px 0; float: right;}
+.containerAppl { margin: 5px 0 0 0; padding: 0 0 0 4px; width: 240px; float: left; }
+.containerAppl:hover { cursor: move; }
+.containerAppl img.heading { float: left; padding: 0 0 0 5px; }
+h3.elsevierTimeL { float: left; text-align:left;  padding: 2px 0 3px 0px; font-weight: normal; font-size: 12px; margin: 4px 0 0 5px; width:54%;}
+h3.elsevierTimeLOver {
+float:left;
+font-size:12px;
+font-weight:bold;
+margin:3px 2px 0 5px;
+padding:2px 0 3px 0;
+width:54%;
+text-align:left;
+}
+.Controls { float: right; width: 60px; position: relative; z-index: 1;margin-top:0px; }
+.Controls ul { margin: 0; padding: 5px 0 0 0; z-index: 1 }
+.Controls ul li{ margin: 0 5px 0 0; float: left; list-style-type: none; z-index: 1 }
+
+.containerAppDetails { border: solid #fec76d; border-top: 0px solid #fec76d; border-width: 0px 1px 1px 1px; }
+
+.containerAppDetails p { margin: 4px 0 0 0; }
+
+.containerAppDetailsCanvas {padding-bottom:3px; margin-bottom:5px;border: 1px solid #FEC76C; border-top: 0px solid #FEC76C; width: 99.8%;  }
+.curveBoxleftCanvas {  height: 25px; padding: 0 0 0 4px; }
+/*menu*/
+.Controls ul .submenu { border: solid 1px #cccccc; background:#f9f9f9; position: absolute; top: 10px; left: -105px;  width:100px; padding: 2px 0 2px 0; clear: both; z-index:2; display:none;text-align:left; }
+.Controls ul .submenu li { background:#f9f9f9;	display: block; float:none;	margin:0 2px 2px 2px; _margin:0 2px 0px 2px; border:0;	height: 18px; line-height:normal; z-index: 1000;}
+	.Controls .submenu li a{ background:#f9f9f9; display: block; float:none; padding:3px 3px; margin:0; border:0; height:auto;	color:#105cbe; line-height:normal;}
+	.Controls .submenu li a:hover{	background:#e3edef;	}
+	
+iframe.selectOverlap{ position:absolute;  z-index:-1;  filter:mask();  border:0;  margin:0;  padding:0;  top:0;  left:0;  overflow:hidden;  filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)}
+.curveBoxleft {  height: 25px; padding: 0 0 0 4px;width:92%; }
+.curveBoxBody {  height: 25px; }
+.curveBoxRight {  height: 25px; }
+.curveBoxRight img.heading {float:left; margin:2px 0 0 4px;height:20px;width:20px;}
+.CanvasControls { float: right; width: 65px; position: relative; z-index: 1;margin-top:2px; }
+.CanvasControls ul { margin:0; padding: -3px 0 0 0; z-index: 1 ;list-style-type: none;}
+.CanvasControls ul li{ margin: 4px 0 0 0;  list-style-type: none; z-index: 1 }
+.CanvasControls ul .submenu { border: solid 1px #cccccc; background:#f9f9f9; position: absolute; top: 10px; left: -145px;  width:140px; padding: 2px 0 2px 0; clear: both; z-index:2; display:none; }
+.CanvasControls ul .submenu li { background:#f9f9f9;	display: block; float:none;	margin:0 2px 2px 2px; _margin:0 2px 0px 2px; border:0;	height: 18px; line-height:normal; z-index: 1000;}
+	.CanvasControls .submenu li a{ background:#f9f9f9; display: block; float:none; padding:3px 3px; margin:0; border:0; height:auto;	color:#105cbe; line-height:normal;}
+	.CanvasControls .submenu li a:hover{	background:#e3edef;	}
+.containerAppDetailsRes { border:0px solid #E2CDA2;   width: 99%; float: left; }	
+
+.curveBoxleftOver {  height: 25px; padding: 0 0 0 0px; margin: 0;width:99%; }
+.curveBoxBodyOver {  height: 25px; margin: 0; padding: 0; }
+.curveBoxRightOver {  height: 25px; margin: 0; padding: 0; }
+.space { padding: 5px 0 0 0px; }
+
+.curveBoxleftNormal {  height: 25px; padding: 0 0 0 0px; margin: 0; }
+.curveBoxBodyNormal {  height: 25px; margin: 0; padding: 0; }
+.curveBoxRightNormal { height: 25px; margin: 0; padding: 0; }
+#canvas { 
+background-color:#FFFFFF; 
+height:99%; 
+left:0; 
+margin-top:5px; 
+padding-bottom:25px; 
+padding-left:4px; 
+position:absolute; 
+text-align:center; 
+top:178px; 
+width:99.7%; 
+z-index:100; 
+}
+	.truncateTitle{width:58%;overflow:hidden;}
+		
