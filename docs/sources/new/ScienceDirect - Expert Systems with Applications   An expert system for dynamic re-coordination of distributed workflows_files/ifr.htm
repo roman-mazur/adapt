@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0532)http://sciverse-shindig.elsevier.com/gadgets/ifr?container=default&mid=0&nocache=1&country=ALL&lang=ALL&view=profile&parent=http%3A%2F%2Fwww.sciencedirect.com&up_domainForDDT=http%3A%2F%2Fwww.applications.sciverse.com%2F&up_serverForDDT=http%3A%2F%2Felsevier-apps.sciverse.com%2Fddt%2Fsavefile&up_resourceDir=http%3A%2F%2Fwww.hub.sciverse.com%2Fgadgetcontext%2Fgadget-resources%2F&st=john.doe:john.doe:appid:cont:url:0:default&url=http%3A%2F%2Fae-content.elsevier.com%2Fsvapp%2F292651%2Fprod%2Fprivate%2Fspec.xml#rpctoken=1105934548 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/ga.js"></script><script>window['__isgadget']=true;</script><script src="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/auth-refresh-core-core.config-core.io-core.json-core.legacy-core.log-core.js"></script><script src="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/jquery.min.js"></script><script>gadgets.config.init({"opensocial":{"path":"http://%host%/rpc","domain":"shindig","invalidatePath":"http://%host%/rpc","supportedFields":{"activity":["id","title"],"person":["id",{"name":["familyName","givenName","unstructured"]},"thumbnailUrl","profileUrl"]},"enableCaja":false},"shindig.auth":{},"rpc":{"parentRelayUrl":"/container/rpc_relay.html","useLegacyProtocol":false},"core.util":{"sciverse":{},"dynamic-height":{},"org.jquery.core-1.4.2":{},"core":{},"opensocial-0.9":{}},"core.io":{"proxyUrl":"//%host%/gadgets/proxy?container=default&refresh=%refresh%&url=%url%%rewriteMime%","jsonProxyUrl":"//%host%/gadgets/makeRequest"}});
+</script><script>gadgets.Prefs.setMessages_({});gadgets.Prefs.setDefaultPrefs_({"domainForDDT":"http://www.applications.sciverse.com/","serverForDDT":"http://elsevier-apps.sciverse.com/ddt/savefile","resourceDir":"http://www.hub.sciverse.com/gadgetcontext/gadget-resources/"});gadgets.io.preloaded_=[];</script>
+
+
+
+<style>.aboutDDT {
+  text-decoration: underline;
+  float: left;
+}
+.infoDDT {
+  margin-right: 0px;
+  margin-left: 10px;
+  padding-top: 0px;
+  cursor: pointer;
+}
+.ui-dialog-title {
+  font-size: .64em;
+}
+.SciVerseDDT {
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  color: #000000;
+  font-size: 0.84em;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+.hideDDT {
+  display: none;
+}
+.showDDT {
+  display: inline;
+}</style><link rel="stylesheet" type="text/css" href="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/jquery-ui.css"></head><body dir="ltr"><script src="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/concat" type="text/javascript"></script><script type="text/javascript">
+
+/*
+ * Hack until proxied URLs are fixed. Create the CSS link dynamically to get
+ * around the broken proxoed URLs.
+ */
+var el = document.createElement("link");
+el.rel="stylesheet";
+el.type="text/css";
+el.href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css";
+//alert("EL: " + el.href + el.type + el.rel);
+$('head').append(el);
+
+/*
+ * Global variable to hold the article, in HTML DOM format.
+ * Set by the first stage "Find Tables". Used again if
+ * user downloads tables. This value is null if the there
+ * is a problem with the call to get the article or the returned
+ * value is null.
+ */
+var article = null;
+
+/*
+ * This function holds the "rules" to clean data from the cell.
+ * We remove embedded HTML and perform entity substituion.
+ *
+ * rawCellData - String of cell data
+ *
+ * Returns a string of the "cleaned" data
+ */
+function cleanCellData(rawCellData)
+{
+  var cleanCellData = rawCellData.replace(/<\/?[^>]+(>|$)/g, "");
+  cleanCellData = cleanCellData.replace(/&nbsp;/gi, " ");
+  cleanCellData = cleanCellData.replace(/&gt;/gi, ">");
+  cleanCellData = cleanCellData.replace(/&lt;/gi, "<");
+  //alert("Clean text: " + cleanCellData);
+
+  return cleanCellData;
+}
+
+/*
+ * Convert each cell in each row into data acceptable for importing
+ * into Excel, in CSV format.
+ *
+ * theRows - Array of HTML DOM rows of the table to convert
+ *
+ * Returns a String containing the rows of the converted data
+ */
+function convertRowsToCSV(theRows)
+{
+  //alert("in tableRowsToCSV");
+
+  // Create string to hold the convrted data
+  // Loop through all the HTML table rows
+  var csv = "";
+
+  for (var r = 0; r < theRows.length; r++)
+  {
+    // alert("On row: " + r);
+    var csvRow = "";
+
+    // Get an array of all of the cells in the current row
+    // and loop through all of the cells, converting each cell
+
+    var theCells = theRows[r].cells;
+    //alert("Total cells: " + theCells.length);
+
+    for ( var c = 0; c < theCells.length; c++)
+    {
+      //alert("On cell: " + c);
+      var rawCellData = theCells[c].innerHTML;
+      //alert("Raw cell data: " + rawCellData);
+
+      // Clean each cell's data
+      var cellData = cleanCellData(rawCellData);
+      // alert ("Clean cell data: " + cellData);
+
+      // Handle commas that are part of the data so they are not
+      // interpreted as a new cell when imported into excel
+      if (cellData.indexOf(",") != -1)
+      {
+        cellData = "\"" + cellData + "\"";
+      }
+        csvRow += "," + cellData;
+    }
+
+    //Remove first comma from buffer
+    if (csvRow != "")
+    {
+      csvRow = csvRow.substring(1);
+    }
+    // Force each row onto a new line (row) in Excel
+    csv += csvRow + "\n";
+  }
+  // Put new line at end in case another table is added.
+  csv += "\n";
+
+  return csv;
+}
+
+/*
+ * This function is called when the user clicks (submits) on the Create
+ * File button. The following steps are performed:
+ *
+ *  - A list of valid tables is obtained
+ *  - Each table is converted to CSV formatted text
+ *  - The form is submitted containing the buffer of text and filename
+ *
+ * The server accepts the request and returns the content as an attachment.
+ */
+function downloadTables()
+{
+  //alert("in downloadTables");
+
+  // Get array of valid tables
+  var tables = getValidTables();
+  var numTables = tables.length;
+  var csvText = "";
+  //alert ("Number of tables: " + numTables);
+
+  // Build string of data for all valid tables
+  // For each table, convert the data to CSV and append to string
+  for (var t = 0; t < numTables; t++)
+  {
+    var rows = tables[t].rows;
+
+    //alert("Table " + t + " has " + rows.length + " rows.");
+    //alert("Each row has " + rows[0].cells.length + " cells.");
+
+    csvText += convertRowsToCSV(rows);
+  }
+
+  /*
+   * Set the hiden input "buffer" to the converted string
+   * Set the form "csvForm" action to the desired URL
+   * Finally, submit the form
+   */
+  $('#buffer').val(csvText.toString());
+  $('#csvForm').attr("action","http://elsevier-apps.sciverse.com/ddt/savefile");
+  $('#csvForm').submit();
+}
+
+/*
+ * This function process the article content to obtain the array of
+ * tables to be downloaded to the client. It contains the "rules" we use
+ * to determine if the given table is a "data table" we are interested in
+ * and want to make available for downloading.
+ *
+ * It assumes the global variable, article, is valid.
+ *
+ * Returns and array of valid tables in HTML DOM format
+ */
+function getValidTables()
+{
+  //alert("in getValidTables");
+
+  var tables = [];
+  var rawTables = article.getElementsByTagName("table");
+  //alert ("Number of raw tables: " + rawTables.length);
+
+  if (rawTables != null)
+  {
+    for (var t = 0; t < rawTables.length; t++)
+    {
+      //alert("On table: " + t);
+      //alert("Raw table rules value: " + rawTables[t].getAttribute("rules"));
+      if (rawTables[t].getAttribute("rules") == "groups")
+      {
+        //alert("Found data table!");
+        tables.push(rawTables[t]);
+      }
+    }
+  }
+  //alert("Valid data tables: " + tables.length);
+  return tables;
+}
+
+/*
+ * This function calls the container to get the current article content.
+ */
+function getContent()
+{
+  //alert("in getContent");
+  gadgets.sciverse.getArticleContent(getContentCallback);
+}
+
+/*
+ * Call back function to process content and count tables. This is assumed
+ * to be part of the first stage (user selects the "Find Tables" function).
+ *
+ * response - response from getArticleContent call, string of article page body
+ *
+ * This function puts the article content, in HTML DOM foramt, into the
+ * global variable, article, for re-use.
+ */
+function getContentCallback(response)
+{
+  //alert("in getContentCallback");
+  if (response == null)
+  {
+    //alert("Article content is NULL.");
+    article = null;
+  }
+  else
+  {
+    //alert("Article content is VALID.");
+    document.getElementById("articleHTML").innerHTML=response;
+    //alert("After articleHTML is: " + document.getElementById("articleHTML").innerHTML);
+    article = document.getElementById("articleHTML");
+  }
+
+  var tables = getValidTables();
+  //alert ("Number of data tables: " + tables.length);
+
+  displayTableInfo (tables.length);
+}
+
+/*
+ * Render message to user based on findings. Either a table count
+ * or no tables available.
+ *
+ * cnt - number of valid tables found
+ */
+function displayTableInfo(cnt)
+{
+  //alert("in displayTableInfo");
+
+  // Display message based on table count found
+  // Hide initial (stage1) text, display new text
+
+  $('#stage1').removeClass('showDDT').addClass('hideDDT');
+
+  if (cnt == 1)
+  {
+    msg = "Found " + cnt + " table.";
+    $('#stage2').removeClass('hideDDT').addClass('showDDT');
+  }
+  else if (cnt > 1)
+  {
+    msg = "Found " + cnt + " tables.";
+    $('#stage2').removeClass('hideDDT').addClass('showDDT');
+  }
+  else
+  {
+    msg = "<p>No HTML data tables to download.</p>";
+  }
+
+  $('#banner').removeClass('hideDDT').addClass('showDDT');
+  document.getElementById("banner").innerHTML=msg;
+  gadgets.window.adjustHeight();
+}
+
+/*
+ * Setup popup click event handler to display dialog upon click
+ */
+function handleInfoClick()
+{
+  $("#dialog").dialog
+  ({
+    resizable: false,
+    height:130,
+    width:170
+  });
+}
+
+//Resize the gadget on load
+gadgets.util.registerOnLoadHandler(function() {gadgets.window.adjustHeight();});
+
+</script><div class="SciVerseDDT">
+
+  <!--  Define render initial (stage 1) display -->
+  <div class="showDDT" id="stage1">
+    <b>Find HTML data tables</b> from the current article to download.
+    <br><br>
+    <div align="center">
+      <input onclick="getContent()" title="Find Tables" type="submit" value="Find Tables">
+      <span class="infoDDT">
+        <img alt="Info" onclick="handleInfoClick()" src="./ScienceDirect - Expert Systems with Applications   An expert system for dynamic re-coordination of distributed workflows_files/proxy" title="Info">
+      </span>
+    </div>
+    <br>
+  </div>
+
+  <!-- Banner for stage 2 -->
+  <div align="center" class="hideDDT" id="banner"></div>
+
+  <!-- Stage two (secondary) text -->
+  <div class="hideDDT" id="stage2">
+    <p>Enter download filename and click button to save tables:</p>
+    <form action="" id="csvForm" method="post">
+      <input id="fneId" name="userFilename" type="text" value="tables.csv">
+      <input id="buffer" name="buffer" type="hidden" value="">
+      <br><br>
+      <div align="center">
+        <input onclick="downloadTables()" title="Create File" type="submit" value="Create File">
+      </div>
+      <br>
+    </form>
+  </div>
+
+  <!-- About link -->
+  <a class="aboutDDT" href="http://www.applications.sciverse.com/action/appDetail/292651" target="_blank">
+  About Table Download
+  </a>
+
+</div> <!-- End SciVerseDDT -->
+
+<!-- Hidden dialog text for info notice popup -->
+<div title="Notice" id="dialog" style="display:none;font-size:.64em;">
+  <div>Only tables with HTML data available can be extracted (excludes images).
+  Tables extracted for external use require full credit to the source and may require additional permission.
+  Please click the “About” link below for more information.</div>
+</div>
+
+<!-- styles -->
+
+
+<!-- Hidden element to hold article after conveting to DOM object for parsing -->
+<div class="hideDDT" id="articleHTML">
+<p>article HTML DOM placeholder</p>
+</div>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18766555-1']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+<script>gadgets.util.runOnLoadHandlers();</script></body></html>
